@@ -2,12 +2,10 @@ from sqlalchemy import (
     Column,
     String,
     ForeignKey,
-    Mapped,
-    mapped_column,
 )
-
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.orm import relationship
-from core.db import Base
+from app.core.db import Base
 
 
 class User(Base):
@@ -42,4 +40,4 @@ class Company(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name = Column(String, index=True)
 
-    jobs: Mapped[list["Job"]] = relationship(back_populates="companies")
+    jobs: Mapped[list["Job"]] = relationship(back_populates="company")
