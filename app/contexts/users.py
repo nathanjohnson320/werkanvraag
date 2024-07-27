@@ -27,3 +27,10 @@ def create(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def verify_password(hashed_password, plain_password):
+    try:
+        return hasher.verify(hashed_password, plain_password)
+    except:
+        return False

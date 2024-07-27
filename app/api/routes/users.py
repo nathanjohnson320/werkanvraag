@@ -23,3 +23,16 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="Could not register user")
     return users.create(db=db, user=user)
+
+
+@router.post("/login")
+def login_user(user: UserCreate, db: Session = Depends(get_db)) -> UserBase:
+    db_user = users.get_by_email(db, email=user.email)
+
+    if not db_user:
+        raise HTTPException(status_code=400, detail="Could not authenticate user")
+
+    if not users.verify_password(db_user.hashed_password, user.password):
+        raise HTTPException(status_code=400, detail="Could not authenticate user")
+
+    return db_user
