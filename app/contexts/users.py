@@ -1,4 +1,5 @@
 from argon2 import PasswordHasher
+from fastapi_pagination import Params
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -15,8 +16,8 @@ def get_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
 
-def list(db: Session, skip: int = 0, limit: int = 100):
-    return paginate(db, select(models.User).offset(skip).limit(limit))
+def list(db: Session, params: Params):
+    return paginate(db, select(models.User), params)
 
 
 def create(db: Session, user: schemas.UserCreate):

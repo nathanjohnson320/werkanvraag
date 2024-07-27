@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi_pagination import Page, add_pagination, paginate
-from fastapi_pagination.ext.sqlalchemy import paginate
+from fastapi_pagination import Page, Params
 from sqlalchemy.orm import Session
 from app.models import User
 from app.core.db import get_db
@@ -13,9 +12,9 @@ router = APIRouter()
 
 @router.get("/")
 def get_users(
-    skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
+    pagination_params: Params = Depends(), db: Session = Depends(get_db)
 ) -> Page[UserBase]:
-    return users.list(db)
+    return users.list(db, pagination_params)
 
 
 @router.post("/")
