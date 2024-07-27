@@ -14,5 +14,5 @@ class User(UserBase):
     id: int
     hashed_password: str
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
