@@ -7,11 +7,12 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     email: str
-    hashed_password: str
+    password: str
 
 
 class User(UserBase):
     id: int
+    hashed_password: str
 
     class Config:
         from_attributes = True
