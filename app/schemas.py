@@ -16,3 +16,43 @@ class User(UserBase):
 
     class ConfigDict:
         from_attributes = True
+
+
+class JobBase(BaseModel):
+    title: str
+    description: str
+    stage: str
+    location: str
+    company_id: int
+    user_id: int
+
+
+class JobCreate(JobBase):
+    title: str
+    description: str
+    stage: str
+    location: str
+    company_id: int
+    user_id: int
+
+
+class Job(JobBase):
+    id: int
+
+    class ConfigDict:
+        from_attributes = True
+
+
+class CompanyBase(BaseModel):
+    name: str
+
+
+class CompanyCreate(CompanyBase):
+    name: str
+
+
+class Company(CompanyBase):
+    id: int
+
+    class ConfigDict:
+        from_attributes = True
