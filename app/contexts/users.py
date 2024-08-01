@@ -20,8 +20,12 @@ def list(db: Session, params: Params):
     return paginate(db, select(models.User), params)
 
 
+def hash_password(password: str):
+    return hasher.hash(password)
+
+
 def create(db: Session, user: schemas.UserCreate):
-    hashed_password = hasher.hash(user.password)
+    hashed_password = hash_password(user.password)
     db_user = models.User(email=user.email, hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
@@ -34,3 +38,13 @@ def verify_password(hashed_password, plain_password):
         return hasher.verify(hashed_password, plain_password)
     except:
         return False
+
+
+def authenticate_user(db: Session, email: str, password: str):
+    print(email, password)
+    user = get_by_email(db, email)
+    if not user:
+        return False
+    if not verify_password(user.hashed_password, password):
+        return False
+    return user
